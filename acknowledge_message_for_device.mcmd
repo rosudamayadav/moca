@@ -1,0 +1,43 @@
+<command>
+
+<name>acknowledge message for device</name>
+
+<description>acknowledge message for device</description>
+
+<type>Local Syntax</type>
+
+<local-syntax>
+<![CDATA[
+    [update mtfmsg_delv
+        set rcvflg = 1, rcvdte = sysdate, moddte = sysdate,
+            mod_usr_id = nvl(@@usr_id,@devcod)
+      where msg_id = @msg_id
+        and devcod = @devcod
+        and wh_id  = nvl(@wh_id, @@wh_id)]
+]]>
+</local-syntax>
+
+<argument name="msg_id" required="yes" datatype="string">Message id</argument>
+<argument name="devcod" required="yes" datatype="string">Device code</argument>
+<argument name="wh_id" required="yes" datatype="string">Warehouse ID</argument>
+
+<documentation>
+<remarks>
+<![CDATA[
+  <p>
+  This command is used to acknowledge that messages was received.
+  Ensure that the message is acknowledged by device in
+  the specific warehouse for which message was sent.
+  </p>
+]]>
+</remarks>
+
+<exception value="eOK">Normal successful completion</exception>
+<exception value="eDB_NO_ROWS_AFFECTED">Message was not found</exception>
+
+<seealso cref="check for messages">
+</seealso>
+
+</documentation>
+
+</command>
